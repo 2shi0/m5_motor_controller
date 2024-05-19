@@ -2,13 +2,11 @@
 #include <M5Atom.h>
 #include "mortor_driver.h"
 
+//mortor driver init
 mortor_driver m;
 
 void setup() {
   Serial.begin(115200);
-
-  //mortor driver init
-  m.write_vset(DRV2_ADR, MIN_VSET, M_STANBY);
 
   //led init
   M5.begin(true, false, true);
@@ -25,16 +23,23 @@ void loop() {
     delay(100);
     M5.dis.drawpix(0, 0, 225);
     delay(100);
-    
+
     return;
   }
 
-  //l.set_color(CRGB::Red);
-  m.write_vset(DRV2_ADR, MAX_VSET, M_NORMAL);
-  m.write_vset(DRV1_ADR, MAX_VSET, M_NORMAL);
+  /*
+  m.write_vset(DRV_1_ADR, MAX_VSET, M_NORMAL);
+  m.write_vset(DRV_2_ADR, MAX_VSET, M_NORMAL);
   delay(3000);
-  //l.set_color(CRGB::Blue);
-  m.write_vset(DRV2_ADR, MAX_VSET, M_REVERSE);
-  m.write_vset(DRV1_ADR, MAX_VSET, M_REVERSE);
+  m.write_vset(DRV_1_ADR, MAX_VSET, M_REVERSE);
+  m.write_vset(DRV_2_ADR, MAX_VSET, M_REVERSE);
   delay(3000);
+  */
+  //m.write_vset(DRV_1_ADR, MAX_VSET, M_BRAKE);
+
+  //Serial.println(m.write_vset_from_analog(Ps3.data.analog.stick.ly, DRV_1_ADR),HEX);
+  int min = MIN_VSET;
+  int max = MAX_VSET;
+  double a = (max-min) / 128;
+  Serial.println(max);
 }
