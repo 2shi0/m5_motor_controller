@@ -17,13 +17,16 @@
 #define MAX_VSET 0x2E  // 3.69V
 #define MIN_VSET 0x06  // 0.48V
 
+// デッドゾーン
+#define DEAD_ZONE 16 //アナログスティックの不感地帯を決める
+
 #include "Arduino.h"
 #include <Wire.h>
 class mortor_driver {
 public:
   mortor_driver();
   int write_vset(byte mtr, byte vs, byte ctr);
-  int write_vset_from_analog(int8_t analog_value, byte mtr);
+  uint8_t write_vset_from_analog(int8_t analog_value, byte mtr);
 
 private:
   double voltage_ratio;

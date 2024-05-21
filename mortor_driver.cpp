@@ -1,7 +1,7 @@
 #include "mortor_driver.h"
 
 mortor_driver::mortor_driver() {
-  voltage_ratio = (MAX_VSET - MIN_VSET) / 128;
+  voltage_ratio = (MAX_VSET - MIN_VSET) / (128.0 - DEAD_ZONE);
   Wire.begin();
 }
 
@@ -19,11 +19,13 @@ int mortor_driver::write_vset(byte mtr, byte vs, byte ctr) {
   return Wire.endTransmission();
 }
 
-int mortor_driver::write_vset_from_analog(int8_t analog_value, byte mtr) {
-  if (analog_value > -5 && analog_value < 5)
+uint8_t mortor_driver::write_vset_from_analog(int8_t analog_value, byte mtr) {
+  if (analog_value > -DEAD_ZONE && analog_value < DEAD_ZONE) {
+    write_vset(mtr, MIN_VSET, M_BRAKE);
     return 0;
+  }
 
-  int v = MIN_VSET + round(analog_value * voltage_ratio);
+  byte v = MIN_VSET + round((abs(analog_value) - DEAD_ZONE) * voltage_ratio);
 
   if (analog_value < 0) {  //-128~1 up
     write_vset(mtr, v, M_NORMAL);

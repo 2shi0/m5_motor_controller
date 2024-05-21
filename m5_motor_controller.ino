@@ -35,11 +35,6 @@ void loop() {
   m.write_vset(DRV_2_ADR, MAX_VSET, M_REVERSE);
   delay(3000);
   */
-  //m.write_vset(DRV_1_ADR, MAX_VSET, M_BRAKE);
 
-  //Serial.println(m.write_vset_from_analog(Ps3.data.analog.stick.ly, DRV_1_ADR),HEX);
-  int min = MIN_VSET;
-  int max = MAX_VSET;
-  double a = (max-min) / 128;
-  Serial.println(max);
+  Serial.println(m.write_vset_from_analog(Ps3.data.analog.stick.ly, DRV_1_ADR));
 }
