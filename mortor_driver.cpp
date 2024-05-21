@@ -19,7 +19,7 @@ int mortor_driver::write_vset(byte mtr, byte vs, byte ctr) {
   return Wire.endTransmission();
 }
 
-uint8_t mortor_driver::write_vset_from_analog(int8_t analog_value, byte mtr) {
+bool mortor_driver::write_vset_from_analog(int8_t analog_value, byte mtr) {
   if (analog_value > -DEAD_ZONE && analog_value < DEAD_ZONE) {
     write_vset(mtr, MIN_VSET, M_BRAKE);
     return 0;
@@ -32,5 +32,5 @@ uint8_t mortor_driver::write_vset_from_analog(int8_t analog_value, byte mtr) {
   } else {  //0~127 down
     write_vset(mtr, v, M_REVERSE);
   }
-  return v;
+  return 1;
 }

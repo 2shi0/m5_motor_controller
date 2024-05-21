@@ -26,7 +26,7 @@ class mortor_driver {
 public:
   mortor_driver();
   int write_vset(byte mtr, byte vs, byte ctr);
-  uint8_t write_vset_from_analog(int8_t analog_value, byte mtr);
+  bool write_vset_from_analog(int8_t analog_value, byte mtr);
 
 private:
   double voltage_ratio;

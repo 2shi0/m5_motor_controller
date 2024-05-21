@@ -5,6 +5,10 @@
 //mortor driver init
 mortor_driver m;
 
+CRGB display_color(uint8_t r, uint8_t g, uint8_t b) {
+  return (CRGB)((r << 16) | (g << 8) | b);
+}
+
 void setup() {
   Serial.begin(115200);
 
@@ -21,20 +25,15 @@ void loop() {
   if (!Ps3.isConnected()) {
     M5.dis.drawpix(0, 0, 0);
     delay(100);
-    M5.dis.drawpix(0, 0, 225);
+    M5.dis.drawpix(0, 0, 255);
     delay(100);
 
     return;
   }
 
-  /*
-  m.write_vset(DRV_1_ADR, MAX_VSET, M_NORMAL);
-  m.write_vset(DRV_2_ADR, MAX_VSET, M_NORMAL);
-  delay(3000);
-  m.write_vset(DRV_1_ADR, MAX_VSET, M_REVERSE);
-  m.write_vset(DRV_2_ADR, MAX_VSET, M_REVERSE);
-  delay(3000);
-  */
+  if (m.write_vset_from_analog(Ps3.data.analog.stick.ry, DRV_1_ADR)||m.write_vset_from_analog(Ps3.data.analog.stick.ly, DRV_2_ADR))
+    M5.dis.drawpix(0, display_color(255, 0, 0));
+  else
+    M5.dis.drawpix(0, 0, 225);
 
-  Serial.println(m.write_vset_from_analog(Ps3.data.analog.stick.ly, DRV_1_ADR));
 }
