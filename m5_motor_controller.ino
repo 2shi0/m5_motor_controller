@@ -21,6 +21,8 @@ void setup() {
 
   Serial.println("Ready.");
 }
+
+bool r, l;
 void loop() {
   if (!Ps3.isConnected()) {
     M5.dis.drawpix(0, 0, 0);
@@ -31,9 +33,13 @@ void loop() {
     return;
   }
 
-  if (m.write_vset_from_analog(Ps3.data.analog.stick.ry, DRV_1_ADR)||m.write_vset_from_analog(Ps3.data.analog.stick.ly, DRV_2_ADR))
+  r = m.write_vset_from_analog(Ps3.data.analog.stick.ry, DRV_1_ADR);
+  vTaskDelay(1 / portTICK_RATE_MS);
+  l = m.write_vset_from_analog(Ps3.data.analog.stick.ly, DRV_2_ADR);
+  vTaskDelay(1 / portTICK_RATE_MS);
+
+  if (r || l)
     M5.dis.drawpix(0, display_color(255, 0, 0));
   else
     M5.dis.drawpix(0, 0, 225);
-
 }
